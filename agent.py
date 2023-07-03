@@ -12,21 +12,22 @@ if __name__ == "__main__":
     file = open("map.txt", "r")
     process.expect("-------")
 
-    board = []
+    lines = []
     end_flag = False
     while(True):
         # reading the board
-        board.clear()
+        lines.clear()
         for line in file:
             if line == "Gameover :(\n":
                 end_flag = True
                 break
-            board.append(line)
-
+            lines.append(line.strip())
         if(end_flag): break
-        print("fine pointer: " + str(file.tell()))
-        print(board[-18:-2])
-        print(len(board))
+
+        # extract the board
+        board = np.array(lines[-18:-2])
+        temp = list(map(lambda x: x.split('|'), board))
+        board = np.array(temp)[:, 1:-1]
 
         # sending input
         x, y =  randint(0, 15), randint(0, 15)
