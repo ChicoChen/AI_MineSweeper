@@ -7,6 +7,7 @@ class MineSweeper
 {
 private:
 	int size;
+	int num_mines;
 	char** board;
 	bool** mask;
 	char** flags;

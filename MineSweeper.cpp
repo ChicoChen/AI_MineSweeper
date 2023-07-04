@@ -14,6 +14,7 @@ int random(int low, int high){
 
 MineSweeper::MineSweeper(){
 	this->size = 16;
+	this->num_mines = 40;
 	board = new char* [size];
 	mask = new bool* [size];
 	flags = new char* [size];
@@ -25,13 +26,13 @@ MineSweeper::MineSweeper(){
 		}
 		mask[i] = new bool[16]();
 	}
-
-	while(mines.size() < 40){
+	
+	while(mines.size() < num_mines){
 		pair<int, int> mine = { random(0, 15), random(0, 15) };
 		mines.insert(mine);
 		board[mine.first][mine.second] = '@';
 	}
-
+	
 	initialize();
 }
 
@@ -150,6 +151,6 @@ bool MineSweeper::endCheck() {
 		}
 	}
 
-	if (count == 40) { return true; }
+	if (count == mines.size()) { return true; }
 	else { return false; }
 }
