@@ -5,4 +5,6 @@ current progress
 -
 .finished minesweeper CLI by C++(6/26)
 
-.still working on python, trying to extract gameboard information(7/3)
+.successfully extract gameboard information using python(7/3)
+
+.currently working on logic of AI agent...
