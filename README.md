@@ -7,4 +7,6 @@ current progress
 
 .successfully extract gameboard information using python(7/3)
 
-.currently working on logic of AI agent...
+.completed the logic part of AI agent(7/18)
+
+.testing my agent....
