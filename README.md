@@ -9,4 +9,4 @@ current progress
 
 .completed the logic part of AI agent(7/18)
 
-.agent win rate 43% (total 100 games), wait for further improvment
+.agent win rate 43% (total 100 games), waiting for further improvment
