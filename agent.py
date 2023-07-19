@@ -115,33 +115,41 @@ if __name__ == "__main__":
     exe_path = "D:/colding/MineSweeper/Debug/MineSweeper.exe"
     # I just notice my folder name is "colding" rather than "coding", lul
     # wait...so I use the wrong name for four years?
+    win_count = 0
+    win = []
+    epoch = 50
+    for i in range(epoch):
+        process = popen_spawn.PopenSpawn([exe_path], logfile=sys.stdout.buffer)
+        process.logfile = open("logs/map" + str(i+1) + ".txt", "wb")
+        file = open("logs/map" + str(i+1) + ".txt", "r")
+        process.expect("-------")
 
-    process = popen_spawn.PopenSpawn([exe_path], logfile=sys.stdout.buffer)
-    process.logfile = open("map.txt", "wb")
-    file = open("map.txt", "r")
-    process.expect("-------")
+        lines = []
+        end_flag = False
+        input = deque()
 
-    lines = []
-    end_flag = False
-    input = deque()
+        while(True):
+            # read & extract the board
+            lines.clear()
+            flag = process.expect(["act:", "Gameover :\(", "we win :\)"]) 
+            if flag != 0:
+                if flag == 2:
+                    win_count += 1
+                    win.append(i)
+                break # exit the loop if game end
+            for line in file:
+                lines.append(line.strip())
 
-    while(True):
-        # read & extract the board
-        lines.clear()
-        flag = process.expect(["act:", "Gameover :\(", "we win :\)"]) 
-        if flag != 0: break # exit the loop if game end
-        for line in file:
-            lines.append(line.strip())
+            board = np.array(lines[-19:-3]) # will read undesire line if len < 19
+            temp = list(map(lambda x: x.split('|'), board))
+            board = np.array(temp)[:, 1:-1] 
+            
+            if(len(input) == 0): nextstep(board, input)
+            # sending input
+            process.sendline(input[0])
+            input.popleft()
+            process.expect("step:")
 
-        board = np.array(lines[-19:-3]) # will read undesire line if len < 19
-        temp = list(map(lambda x: x.split('|'), board))
-        board = np.array(temp)[:, 1:-1] 
-        
-        if(len(input) == 0): nextstep(board, input)
-        # sending input
-        process.sendline(input[0])
-        input.popleft()
-        process.expect("step:")
-
-    process.expect(pexpect.EOF, timeout = 2)
-
+        process.expect(pexpect.EOF, timeout = 2)
+    print("winerate: " + str(win_count) + "/" + str(epoch))
+    print(win)
