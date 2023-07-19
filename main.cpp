@@ -17,6 +17,8 @@ int main(){
     int x, y;
     char action = NULL;
     int step = 0;
+
+    cout << "act: ";
     while (getline(cin, input)) {
         stringstream sin;
         sin.str(input);
@@ -42,6 +44,7 @@ int main(){
             break;
         }
         action = NULL;
+        cout << "act: ";
     }
 }
 
